@@ -3,6 +3,9 @@
 namespace Hazaveh\LinkPreview\Parsers;
 
 use GuzzleHttp\Client;
+use Hazaveh\LinkPreview\Extractors\DescriptionExtractor;
+use Hazaveh\LinkPreview\Extractors\ImageExtractor;
+use Hazaveh\LinkPreview\Extractors\TitleExtractor;
 use Psr\Http\Client\ClientInterface;
 use GuzzleHttp\Exception\GuzzleException;
 use Hazaveh\LinkPreview\Contracts\ParserInterface;
@@ -33,9 +36,9 @@ class SiteParser implements ParserInterface
             return new Link(url: $url, description: "Invalid response code {$this->errorCode}", error: $this->errorCode);
         }
 
-        $title = $this->extractTags($html);
+        $data = $this->extractTags($html);
 
-        return new Link($url, $title);
+        return new Link($url, $data['title'], $data['description'], $data['image']);
 
     }
 
@@ -56,13 +59,30 @@ class SiteParser implements ParserInterface
         return false;
     }
 
-    private function extractTags(string $html)
+    /**
+     * @param string $html
+     * @return array{
+     *     title: string,
+     *     description: string,
+     *     image: string
+     * }
+     */
+    private function extractTags(string $html): array
     {
 
         $crawler = new Crawler();
         $crawler->addHtmlContent($html);
 
-        return $crawler->filter('title')->text();
+        $extracted = [];
+        /**
+         * @var ExtractorInterface $extractor
+         */
+        foreach ($this->getExtractors() as $extractor) {
+            $extracted[$extractor::name()] = $extractor::extract($crawler);
+        }
+
+        return $extracted;
+
     }
 
     public function client(): Client
@@ -92,5 +112,14 @@ class SiteParser implements ParserInterface
         if (!filter_var($url, FILTER_VALIDATE_URL)) {
             throw new InvalidURLException($url);
         }
+    }
+
+    public function getExtractors(): array
+    {
+        return [
+            TitleExtractor::name() => TitleExtractor::class,
+            DescriptionExtractor::name() => DescriptionExtractor::class,
+            ImageExtractor::name() => ImageExtractor::class
+        ];
     }
 }
