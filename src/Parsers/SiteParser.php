@@ -4,6 +4,7 @@ namespace Hazaveh\LinkPreview\Parsers;
 
 use GuzzleHttp\Client;
 use Hazaveh\LinkPreview\Extractors\DescriptionExtractor;
+use Hazaveh\LinkPreview\Extractors\FaviconExtractor;
 use Hazaveh\LinkPreview\Extractors\ImageExtractor;
 use Hazaveh\LinkPreview\Extractors\TitleExtractor;
 use Psr\Http\Client\ClientInterface;
@@ -38,7 +39,7 @@ class SiteParser implements ParserInterface
 
         $data = $this->extractTags($html);
 
-        return new Link($url, $data['title'], $data['description'], $data['image']);
+        return new Link($url, $data['title'], $data['description'], $data['image'], $data['icon']);
 
     }
 
@@ -64,7 +65,8 @@ class SiteParser implements ParserInterface
      * @return array{
      *     title: string,
      *     description: string,
-     *     image: string
+     *     image: string,
+     *     icon: string
      * }
      */
     private function extractTags(string $html): array
@@ -119,7 +121,8 @@ class SiteParser implements ParserInterface
         return [
             TitleExtractor::name() => TitleExtractor::class,
             DescriptionExtractor::name() => DescriptionExtractor::class,
-            ImageExtractor::name() => ImageExtractor::class
+            ImageExtractor::name() => ImageExtractor::class,
+            FaviconExtractor::name() => FaviconExtractor::class
         ];
     }
 }

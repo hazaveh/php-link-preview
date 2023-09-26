@@ -28,4 +28,5 @@ test('it can parse correctly', function () {
     assertEquals("Your Page Title", $link->title);
     assertEquals("Your page description goes here.", $link->description);
     assertEquals("https://example.com/your-image.jpg", $link->image);
+    assertEquals("https://example.com/favicon.ico", $link->icon);
 });
