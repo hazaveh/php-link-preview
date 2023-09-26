@@ -11,7 +11,7 @@ class Link
         public readonly ?string $image  = "",
         public readonly ?string $icon  = "",
         public readonly ?int $error  = 0,
-        public readonly string $locale = "en_US",
+        public readonly string $locale = "",
     ) {
     }
 }
