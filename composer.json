@@ -5,7 +5,6 @@
     "require": {
         "symfony/dom-crawler": "^6.3",
         "guzzlehttp/guzzle": "^7.8",
-        "illuminate/support": "^10.24",
         "symfony/css-selector": "^6.3"
     },
     "require-dev": {
@@ -33,5 +32,9 @@
         "allow-plugins": {
             "pestphp/pest-plugin": true
         }
+    },
+    "scripts": {
+        "test": "@php vendor/bin/pest",
+        "codestyle": "@php vendor/bin/php-cs-fixer fix --config=.php-cs-fixer.php --verbose --diff --dry-run"
     }
 }
