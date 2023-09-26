@@ -38,3 +38,17 @@ $client = new Client();
 
 $preview = $client->parse("https://hazaveh.net/2023/07/re-inventing-bookmarks-for-teams/");
 ```
+
+## Using Custom Parser
+Out of the box this library comes with a Parser that uses included extractor classes to extract different pieces of information from the page. You can always use a custom parser that implements `ParserInterface` and have your own logic to extract information from the page.
+```php
+class CustomParser implements ParserInterface  
+{  
+    public function parse(string $url): Link  
+    {  
+        return new Link(url: $url);  
+    }  
+}  
+  
+$client = new Client(new CustomParser());
+```
