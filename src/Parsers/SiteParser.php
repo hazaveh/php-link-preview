@@ -6,6 +6,7 @@ use GuzzleHttp\Client;
 use Hazaveh\LinkPreview\Extractors\DescriptionExtractor;
 use Hazaveh\LinkPreview\Extractors\FaviconExtractor;
 use Hazaveh\LinkPreview\Extractors\ImageExtractor;
+use Hazaveh\LinkPreview\Extractors\LocaleExtractor;
 use Hazaveh\LinkPreview\Extractors\TitleExtractor;
 use Psr\Http\Client\ClientInterface;
 use GuzzleHttp\Exception\GuzzleException;
@@ -16,7 +17,7 @@ use Symfony\Component\DomCrawler\Crawler;
 
 class SiteParser implements ParserInterface
 {
-    private ClientInterface $httpClient;
+    private ?ClientInterface $httpClient = null;
 
     private int $errorCode = 0;
 
@@ -39,7 +40,7 @@ class SiteParser implements ParserInterface
 
         $data = $this->extractTags($html);
 
-        return new Link($url, $data['title'], $data['description'], $data['image'], $data['icon']);
+        return new Link($url, $data['title'], $data['description'], $data['image'], $data['icon'], locale: $data['locale']);
 
     }
 
@@ -66,7 +67,8 @@ class SiteParser implements ParserInterface
      *     title: string,
      *     description: string,
      *     image: string,
-     *     icon: string
+     *     icon: string,
+     *     locale: string
      * }
      */
     private function extractTags(string $html): array
@@ -122,7 +124,8 @@ class SiteParser implements ParserInterface
             TitleExtractor::name() => TitleExtractor::class,
             DescriptionExtractor::name() => DescriptionExtractor::class,
             ImageExtractor::name() => ImageExtractor::class,
-            FaviconExtractor::name() => FaviconExtractor::class
+            FaviconExtractor::name() => FaviconExtractor::class,
+            LocaleExtractor::name() => LocaleExtractor::class
         ];
     }
 }
