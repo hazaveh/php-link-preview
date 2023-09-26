@@ -25,5 +25,7 @@ test('it can parse correctly', function () {
 
     $link = $parser->parse('https://hazaveh.net');
 
-    assertEquals("Website Title", $link->title);
+    assertEquals("Your Page Title", $link->title);
+    assertEquals("Your page description goes here.", $link->description);
+    assertEquals("https://example.com/your-image.jpg", $link->image);
 });
