@@ -1,5 +1,5 @@
 {
-    "name": "hazaveh/url-preview",
+    "name": "hazaveh/php-link-preview",
     "description": "PHP Link Preview library",
     "type": "library",
     "require": {
