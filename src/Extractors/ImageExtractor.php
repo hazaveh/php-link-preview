@@ -9,6 +9,10 @@ use Symfony\Component\DomCrawler\Crawler;
 class ImageExtractor implements ExtractorInterface
 {
     use CanExtractBySelector;
+
+    /**
+     * @var array<array<string, string>> $selectors
+     */
     private static array $selectors = [
         ['selector' => 'meta[property="twitter:image"]', 'attribute' => 'content'],
         ['selector' => 'meta[property="og:image"]', 'attribute' => 'content'],

@@ -10,7 +10,8 @@
     },
     "require-dev": {
         "pestphp/pest": "^2.19",
-        "friendsofphp/php-cs-fixer": "^3.28"
+        "friendsofphp/php-cs-fixer": "^3.28",
+        "phpstan/phpstan": "^1.10"
     },
     "license": "MIT",
     "autoload": {
@@ -36,6 +37,7 @@
     },
     "scripts": {
         "test": "@php vendor/bin/pest",
+        "analyze": "@php vendor/bin/phpstan analyze",
         "codestyle": "@php vendor/bin/php-cs-fixer fix --config=.php-cs-fixer.php --verbose --diff --dry-run"
     }
 }
