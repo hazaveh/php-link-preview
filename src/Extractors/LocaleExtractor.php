@@ -9,6 +9,10 @@ use Symfony\Component\DomCrawler\Crawler;
 class LocaleExtractor implements ExtractorInterface
 {
     use CanExtractBySelector;
+
+    /**
+     * @var array<array<string, string>> $selectors
+     */
     private static array $selectors = [
         ['selector' => 'html', 'attribute' => 'lang'],
     ];

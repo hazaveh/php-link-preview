@@ -9,6 +9,10 @@ use Symfony\Component\DomCrawler\Crawler;
 class FaviconExtractor implements ExtractorInterface
 {
     use CanExtractBySelector;
+
+    /**
+     * @var array<array<string, string>> $selectors
+     */
     private static array $selectors = [
         ['selector' => 'link[rel="icon"]', 'attribute' => 'href']
     ];

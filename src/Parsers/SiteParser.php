@@ -3,12 +3,13 @@
 namespace Hazaveh\LinkPreview\Parsers;
 
 use GuzzleHttp\Client;
+use GuzzleHttp\ClientInterface;
+use Hazaveh\LinkPreview\Contracts\ExtractorInterface;
 use Hazaveh\LinkPreview\Extractors\DescriptionExtractor;
 use Hazaveh\LinkPreview\Extractors\FaviconExtractor;
 use Hazaveh\LinkPreview\Extractors\ImageExtractor;
 use Hazaveh\LinkPreview\Extractors\LocaleExtractor;
 use Hazaveh\LinkPreview\Extractors\TitleExtractor;
-use Psr\Http\Client\ClientInterface;
 use GuzzleHttp\Exception\GuzzleException;
 use Hazaveh\LinkPreview\Contracts\ParserInterface;
 use Hazaveh\LinkPreview\Exceptions\InvalidURLException;
@@ -17,7 +18,7 @@ use Symfony\Component\DomCrawler\Crawler;
 
 class SiteParser implements ParserInterface
 {
-    private ?ClientInterface $httpClient = null;
+    private ClientInterface|null $httpClient = null;
 
     private int $errorCode = 0;
 
@@ -48,6 +49,7 @@ class SiteParser implements ParserInterface
     {
 
         try {
+            /** @phpstan-ignore-next-line  */
             $response = $this->client()->get($url);
 
             if ($response->getStatusCode() >= 200 && $response->getStatusCode() < 300) {
@@ -78,10 +80,9 @@ class SiteParser implements ParserInterface
         $crawler->addHtmlContent($html);
 
         $extracted = [];
-        /**
-         * @var ExtractorInterface $extractor
-         */
+
         foreach ($this->getExtractors() as $extractor) {
+            /** @var ExtractorInterface $extractor */
             $extracted[$extractor::name()] = $extractor::extract($crawler);
         }
 
@@ -89,7 +90,7 @@ class SiteParser implements ParserInterface
 
     }
 
-    public function client(): Client
+    public function client(): ClientInterface
     {
         if (! $this->httpClient) {
             $this->httpClient = new Client(['http_errors' => false]);
@@ -118,6 +119,9 @@ class SiteParser implements ParserInterface
         }
     }
 
+    /**
+     * @return string[]
+     */
     public function getExtractors(): array
     {
         return [
