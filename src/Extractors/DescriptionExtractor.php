@@ -9,6 +9,10 @@ use Symfony\Component\DomCrawler\Crawler;
 class DescriptionExtractor implements ExtractorInterface
 {
     use CanExtractBySelector;
+
+    /**
+     * @var array<array<string, string>> $selectors
+     */
     private static array $selectors = [
         ['selector' => 'meta[property="twitter:description"]', 'attribute' => 'content'],
         ['selector' => 'meta[property="og:description"]', 'attribute' => 'content'],
