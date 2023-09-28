@@ -9,8 +9,9 @@ use Symfony\Component\DomCrawler\Crawler;
 class TitleExtractor implements ExtractorInterface
 {
     use CanExtractBySelector;
+
     /**
-     * @var array[]
+     * @var array<array<string, string>> $selectors
      */
     private static array $selectors = [
         ['selector' => 'meta[property="twitter:title"]', 'attribute' => 'content'],

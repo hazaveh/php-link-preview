@@ -55,3 +55,6 @@ class CustomParser implements ParserInterface
   
 $client = new Client(new CustomParser());
 ```
+
+## Contribution
+Do something cool and add a PR.
