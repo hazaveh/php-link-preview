@@ -14,11 +14,7 @@ class Client
 
     public function __construct(?ParserInterface $parser = null)
     {
-        if ($parser) {
-            $this->parser = $parser;
-            return;
-        }
-        $this->parser = new SiteParser();
+        $this->parser = $parser ?? new SiteParser();
     }
 
     /**
