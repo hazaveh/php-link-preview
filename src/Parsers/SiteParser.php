@@ -35,7 +35,7 @@ class SiteParser implements ParserInterface
         $this->validate($url);
         $html = $this->visit($url);
 
-        if (! $html) {
+        if (!$html) {
             return new Link(url: $url, description: "Invalid response code {$this->errorCode}", error: $this->errorCode);
         }
 
@@ -92,7 +92,7 @@ class SiteParser implements ParserInterface
 
     public function client(): ClientInterface
     {
-        if (! $this->httpClient) {
+        if (!$this->httpClient) {
             $this->httpClient = new Client([
                 'http_errors' => false,
                 'headers' => [
