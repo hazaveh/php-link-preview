@@ -23,6 +23,6 @@ trait CanExtractBySelector
             }
         }
 
-        return count($data) ? $data[0] : "";
+        return $data[0] ?? "";
     }
 }
