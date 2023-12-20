@@ -9,7 +9,7 @@ trait CanExtractBySelector
     public static function extractSelectors(Crawler $crawler): string
     {
 
-        if (! property_exists(self::class, 'selectors')) {
+        if (!property_exists(self::class, 'selectors')) {
             throw new \InvalidArgumentException("Missing Property \$tags");
         }
 
