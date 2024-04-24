@@ -39,7 +39,7 @@ class SiteParser implements ParserInterface
             return new Link(url: $url, description: "Invalid response code {$this->errorCode}", error: $this->errorCode);
         }
 
-        $data = $this->extractTags($html);
+        $data = $this->extractTags($url, $html);
 
         return new Link($url, $data['title'], $data['description'], $data['image'], $data['icon'], locale: $data['locale']);
 
@@ -73,10 +73,10 @@ class SiteParser implements ParserInterface
      *     locale: string
      * }
      */
-    private function extractTags(string $html): array
+    private function extractTags(string $url, string $html): array
     {
-
-        $crawler = new Crawler();
+        $urlParts = parse_url($url);
+        $crawler = new Crawler(uri: $url, baseHref: $urlParts['scheme'] . '://' . $urlParts['host']);
         $crawler->addHtmlContent($html);
 
         $extracted = [];

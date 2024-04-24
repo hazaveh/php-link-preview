@@ -19,7 +19,12 @@ class FaviconExtractor implements ExtractorInterface
 
     public static function extract(Crawler $crawler): string
     {
-        return self::extractSelectors($crawler);
+        $icon = self::extractSelectors($crawler);
+        // If the icon is a relative path, we need to convert it to an absolute path
+        if (strpos($icon, 'http') !== 0) {
+            $icon = $crawler->getUri() . $icon;
+        }
+        return preg_replace('/([^:])(\\/{2,})/', '$1/', $icon);
     }
 
     public static function name(): string
