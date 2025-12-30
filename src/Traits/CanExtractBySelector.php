@@ -16,7 +16,7 @@ trait CanExtractBySelector
         $data = [];
 
         foreach (self::$selectors as $selector) {
-            if($crawler->filter($selector['selector'])->count() > 0) {
+            if ($crawler->filter($selector['selector'])->count() > 0) {
                 $data[] = isset($selector['attribute'])
                     ? $crawler->filter($selector['selector'])->first()->attr($selector['attribute'])
                     : $crawler->filter($selector['selector'])->first()->text();
